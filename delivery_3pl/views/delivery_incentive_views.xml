@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Validity Criteria Views -->
+    <record id="view_delivery_validity_criteria_tree" model="ir.ui.view">
+        <field name="name">delivery.validity.criteria.tree</field>
+        <field name="model">delivery.validity.criteria</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="branch_id"/>
+                <field name="min_daily_online_hours"/>
+                <field name="min_valid_days"/>
+                <field name="min_monthly_orders"/>
+                <field name="must_attend_first_days"/>
+                <field name="must_attend_last_days"/>
+                <field name="is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_validity_criteria_form" model="ir.ui.view">
+        <field name="name">delivery.validity.criteria.form</field>
+        <field name="model">delivery.validity.criteria</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Link">
+                            <field name="contract_id"/>
+                            <field name="branch_id"/>
+                            <field name="company_id"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Daily Requirements">
+                            <group>
+                                <group>
+                                    <field name="min_daily_online_hours"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Monthly Requirements">
+                            <group>
+                                <group string="Attendance">
+                                    <field name="min_valid_days"/>
+                                    <field name="must_attend_first_days"/>
+                                    <field name="must_attend_last_days"/>
+                                    <field name="must_attend_min_valid"/>
+                                    <field name="min_orders_must_attend_day"/>
+                                    <field name="min_calendar_pct_mid_month"/>
+                                    <field name="validity_pct_threshold"/>
+                                </group>
+                                <group string="Orders">
+                                    <field name="min_monthly_orders"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Compliance">
+                            <group>
+                                <group>
+                                    <field name="require_self_delivery"/>
+                                    <field name="facial_verification_min_pct"/>
+                                    <field name="max_cheating_rider_pct"/>
+                                    <field name="duplicate_iqama_policy"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_validity_criteria" model="ir.actions.act_window">
+        <field name="name">Validity Criteria</field>
+        <field name="res_model">delivery.validity.criteria</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Experience Score Config Views -->
+    <record id="view_delivery_experience_config_tree" model="ir.ui.view">
+        <field name="name">delivery.experience.score.config.tree</field>
+        <field name="model">delivery.experience.score.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="on_time_delivery_weight"/>
+                <field name="cancellation_rate_weight"/>
+                <field name="advance_delivery_weight"/>
+                <field name="min_orders_for_ranking"/>
+                <field name="is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_experience_config_form" model="ir.ui.view">
+        <field name="name">delivery.experience.score.config.form</field>
+        <field name="model">delivery.experience.score.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Link">
+                            <field name="contract_id"/>
+                            <field name="branch_id"/>
+                            <field name="company_id"/>
+                            <field name="is_active"/>
+                        </group>
+                        <group string="Score Weights">
+                            <field name="on_time_delivery_weight"/>
+                            <field name="cancellation_rate_weight"/>
+                            <field name="advance_delivery_weight"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Eligibility">
+                            <field name="min_orders_for_ranking"/>
+                            <field name="only_valid_da_eligible"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_experience_config" model="ir.actions.act_window">
+        <field name="name">Experience Score Config</field>
+        <field name="res_model">delivery.experience.score.config</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Incentive Level Views (inline in pricing rule, but also standalone) -->
+    <record id="view_delivery_incentive_level_tree" model="ir.ui.view">
+        <field name="name">delivery.incentive.level.tree</field>
+        <field name="model">delivery.incentive.level</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="level"/>
+                <field name="range_from"/>
+                <field name="range_to"/>
+                <field name="bike_amount"/>
+                <field name="car_amount"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

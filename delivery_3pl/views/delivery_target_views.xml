@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Company Target Views -->
+    <record id="view_delivery_company_target_tree" model="ir.ui.view">
+        <field name="name">delivery.company.target.tree</field>
+        <field name="model">delivery.company.target</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="target_met == True" decoration-warning="target_met == False">
+                <field name="period_display"/>
+                <field name="company_id"/>
+                <field name="branch_id"/>
+                <field name="actual_valid_das"/>
+                <field name="actual_total_riders"/>
+                <field name="achieved_level"/>
+                <field name="target_met"/>
+                <field name="level_a_min_valid_das"/>
+                <field name="tga_excl_vat"/>
+                <field name="total_due"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_company_target_form" model="ir.ui.view">
+        <field name="name">delivery.company.target.form</field>
+        <field name="model">delivery.company.target</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <group string="General">
+                            <field name="company_id"/>
+                            <field name="branch_id"/>
+                            <field name="contract_id"/>
+                            <field name="month"/>
+                            <field name="year"/>
+                            <field name="period_display"/>
+                        </group>
+                        <group string="Actual Results">
+                            <field name="actual_valid_das"/>
+                            <field name="actual_total_riders"/>
+                            <field name="achieved_level"/>
+                            <field name="target_met"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Level A Target">
+                            <group>
+                                <group>
+                                    <field name="level_a_min_valid_das"/>
+                                    <field name="level_a_max_valid_das"/>
+                                </group>
+                                <group>
+                                    <field name="level_a_bike_amount"/>
+                                    <field name="level_a_car_amount"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Level B Target">
+                            <group>
+                                <group>
+                                    <field name="level_b_min_valid_das"/>
+                                    <field name="level_b_max_valid_das"/>
+                                </group>
+                                <group>
+                                    <field name="level_b_bike_amount"/>
+                                    <field name="level_b_car_amount"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Level C Target">
+                            <group>
+                                <group>
+                                    <field name="level_c_min_valid_das"/>
+                                    <field name="level_c_max_valid_das"/>
+                                </group>
+                                <group>
+                                    <field name="level_c_bike_amount"/>
+                                    <field name="level_c_car_amount"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Level D">
+                            <group>
+                                <field name="level_d_below"/>
+                            </group>
+                        </page>
+                        <page string="Platform Rates">
+                            <group>
+                                <group>
+                                    <field name="keeta_base_rate"/>
+                                    <field name="keeta_ontime_rate"/>
+                                    <field name="keeta_shift_rate"/>
+                                </group>
+                                <group>
+                                    <field name="tga_excl_vat"/>
+                                    <field name="total_due"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_company_target" model="ir.actions.act_window">
+        <field name="name">Company Targets</field>
+        <field name="res_model">delivery.company.target</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Rider Deduction Views -->
+    <record id="view_delivery_rider_deduction_tree" model="ir.ui.view">
+        <field name="name">delivery.rider.deduction.tree</field>
+        <field name="model">delivery.rider.deduction</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="period_display"/>
+                <field name="rider_id"/>
+                <field name="branch_id"/>
+                <field name="fuel_deduction"/>
+                <field name="car_rent"/>
+                <field name="housing"/>
+                <field name="car_installment"/>
+                <field name="advance_salary"/>
+                <field name="food_allowance"/>
+                <field name="total_deduction"/>
+                <field name="collection_amount"/>
+                <field name="is_active_rider"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_rider_deduction_form" model="ir.ui.view">
+        <field name="name">delivery.rider.deduction.form</field>
+        <field name="model">delivery.rider.deduction</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="General">
+                            <field name="rider_id"/>
+                            <field name="branch_id"/>
+                            <field name="company_id"/>
+                            <field name="settlement_id"/>
+                            <field name="month"/>
+                            <field name="year"/>
+                            <field name="is_active_rider"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Deductions">
+                            <field name="fuel_deduction"/>
+                            <field name="car_rent"/>
+                            <field name="housing"/>
+                            <field name="car_installment"/>
+                            <field name="advance_salary"/>
+                            <field name="food_allowance"/>
+                            <field name="other_deduction"/>
+                            <field name="total_deduction"/>
+                        </group>
+                        <group string="Collection">
+                            <field name="collection_amount"/>
+                        </group>
+                    </group>
+                    <field name="notes"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_rider_deduction" model="ir.actions.act_window">
+        <field name="name">Rider Deductions</field>
+        <field name="res_model">delivery.rider.deduction</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

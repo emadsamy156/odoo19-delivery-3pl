@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_pricing_rule_tree" model="ir.ui.view">
+        <field name="name">delivery.pricing.rule.tree</field>
+        <field name="model">delivery.pricing.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Pricing Rules">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="branch_id" optional="show"/>
+                <field name="contract_id" optional="show"/>
+                <field name="city_id" optional="show"/>
+                <field name="pricing_type" widget="badge"/>
+                <field name="vehicle_type" optional="show"/>
+                <field name="base_amount"/>
+                <field name="per_km_amount" optional="show"/>
+                <field name="daily_rate" optional="hide"/>
+                <field name="slab_count" string="Slabs" optional="show"/>
+                <field name="incentive_level_count" string="Levels" optional="show"/>
+                <field name="effective_from"/>
+                <field name="effective_to" optional="show"/>
+                <field name="is_active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_pricing_rule_form" model="ir.ui.view">
+        <field name="name">delivery.pricing.rule.form</field>
+        <field name="model">delivery.pricing.rule</field>
+        <field name="arch" type="xml">
+            <form string="Pricing Rule">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Rule Name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Assignment">
+                            <field name="company_id"/>
+                            <field name="branch_id"/>
+                            <field name="contract_id"/>
+                            <field name="city_id"/>
+                            <field name="pricing_type"/>
+                        </group>
+                        <group string="Classification">
+                            <field name="vehicle_type"/>
+                            <field name="rider_performance_level"/>
+                            <field name="currency_id"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+
+                    <group string="Per-Order Amounts"
+                           invisible="pricing_type not in ('per_order', 'per_distance', 'tiered')">
+                        <group>
+                            <field name="base_amount"/>
+                            <field name="cod_rate"/>
+                            <field name="paid_rate"/>
+                            <field name="stacking_discount"/>
+                        </group>
+                        <group invisible="pricing_type != 'per_distance'">
+                            <field name="per_km_amount"/>
+                            <field name="km_start_from"/>
+                            <field name="max_km"/>
+                        </group>
+                    </group>
+
+                    <group string="Order Rejection Rules"
+                           invisible="pricing_type not in ('per_order', 'tiered')">
+                        <group>
+                            <field name="order_rejection_free_daily"/>
+                            <field name="order_rejection_penalty"/>
+                        </group>
+                    </group>
+
+                    <group string="Fixed Salary Configuration"
+                           invisible="pricing_type != 'fixed_salary'">
+                        <group>
+                            <field name="daily_rate"/>
+                            <field name="working_days"/>
+                            <field name="monthly_total"/>
+                        </group>
+                        <group>
+                            <field name="fallback_per_order"/>
+                            <field name="bonus_threshold"/>
+                            <field name="bonus_per_order"/>
+                        </group>
+                    </group>
+
+                    <group string="KPI Conditions"
+                           invisible="pricing_type != 'fixed_salary'">
+                        <group>
+                            <field name="shift_adherence_min"/>
+                            <field name="on_time_delivery_min"/>
+                            <field name="order_acceptance_min"/>
+                        </group>
+                    </group>
+
+                    <group string="Bonus / Penalty Parameters"
+                           invisible="pricing_type not in ('bonus', 'penalty')">
+                        <group>
+                            <field name="base_amount"/>
+                            <field name="min_orders"/>
+                            <field name="max_orders"/>
+                            <field name="bonus_amount"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Pricing Slabs" name="slabs"
+                              invisible="pricing_type != 'tiered'">
+                            <field name="slab_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="label"/>
+                                    <field name="from_orders"/>
+                                    <field name="to_orders"/>
+                                    <field name="price_per_order"/>
+                                    <field name="max_payout"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Incentive Levels (A/B/C/D)" name="incentive_levels"
+                              invisible="pricing_type not in ('experience_incentive', 'capacity_incentive')">
+                            <field name="incentive_level_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="level"/>
+                                    <field name="range_from"/>
+                                    <field name="range_to"/>
+                                    <field name="bike_amount"/>
+                                    <field name="car_amount"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <group string="Validity">
+                        <group>
+                            <field name="effective_from"/>
+                            <field name="effective_to"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Additional notes..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_pricing_rule_search" model="ir.ui.view">
+        <field name="name">delivery.pricing.rule.search</field>
+        <field name="model">delivery.pricing.rule</field>
+        <field name="arch" type="xml">
+            <search string="Search Pricing Rules">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="branch_id"/>
+                <filter name="active_rules" string="Active" domain="[('is_active', '=', True)]"/>
+                <separator/>
+                <filter name="type_per_order" string="Per Order" domain="[('pricing_type', '=', 'per_order')]"/>
+                <filter name="type_per_distance" string="Per Distance" domain="[('pricing_type', '=', 'per_distance')]"/>
+                <filter name="type_tiered" string="Tiered" domain="[('pricing_type', '=', 'tiered')]"/>
+                <filter name="type_fixed_salary" string="Fixed Salary" domain="[('pricing_type', '=', 'fixed_salary')]"/>
+                <filter name="type_experience" string="Experience Incentive" domain="[('pricing_type', '=', 'experience_incentive')]"/>
+                <filter name="type_capacity" string="Capacity Incentive" domain="[('pricing_type', '=', 'capacity_incentive')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                    <filter name="group_branch" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="group_contract" string="Contract" context="{'group_by': 'contract_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'pricing_type'}"/>
+                    <filter name="group_city" string="City" context="{'group_by': 'city_id'}"/>
+                    <filter name="group_vehicle" string="Vehicle Type" context="{'group_by': 'vehicle_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_pricing_rule" model="ir.actions.act_window">
+        <field name="name">Pricing Rules</field>
+        <field name="res_model">delivery.pricing.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active_rules': 1}</field>
+    </record>
+</odoo>

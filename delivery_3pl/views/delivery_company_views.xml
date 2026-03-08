@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_company_tree" model="ir.ui.view">
+        <field name="name">delivery.company.tree</field>
+        <field name="model">delivery.company</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Companies">
+                <field name="name"/>
+                <field name="name_ar"/>
+                <field name="contact_email"/>
+                <field name="contact_phone"/>
+                <field name="settlement_cycle"/>
+                <field name="branch_count" string="Branches"/>
+                <field name="contract_count" string="Contracts"/>
+                <field name="rider_count" string="Riders"/>
+                <field name="is_active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_company_form" model="ir.ui.view">
+        <field name="name">delivery.company.form</field>
+        <field name="model">delivery.company</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Company">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_branches" type="object"
+                                class="oe_stat_button" icon="fa-building-o">
+                            <field name="branch_count" widget="statinfo" string="Branches"/>
+                        </button>
+                        <button name="action_view_contracts" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="contract_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                        <button name="action_view_riders" type="object"
+                                class="oe_stat_button" icon="fa-motorcycle">
+                            <field name="rider_count" widget="statinfo" string="Riders"/>
+                        </button>
+                    </div>
+                    <field name="logo" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Company Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name_ar"/>
+                            <field name="contact_email"/>
+                            <field name="contact_phone"/>
+                        </group>
+                        <group>
+                            <field name="settlement_cycle"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Branches" name="branches">
+                            <field name="branch_ids">
+                                <tree string="Branches">
+                                    <field name="branch_code"/>
+                                    <field name="name"/>
+                                    <field name="city_id"/>
+                                    <field name="contact_person"/>
+                                    <field name="contract_count" string="Contracts"/>
+                                    <field name="rider_count" string="Riders"/>
+                                    <field name="is_active" widget="boolean_toggle"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Contracts" name="contracts">
+                            <field name="contract_ids">
+                                <tree string="Contracts">
+                                    <field name="contract_number"/>
+                                    <field name="branch_id"/>
+                                    <field name="version"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status == 'active'"
+                                           decoration-info="status == 'draft'"
+                                           decoration-warning="status == 'expired'"
+                                           decoration-danger="status == 'terminated'"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="settlement_cycle"/>
+                                    <field name="commission_rate"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Pricing Rules" name="pricing">
+                            <field name="pricing_rule_ids">
+                                <tree string="Pricing Rules">
+                                    <field name="name"/>
+                                    <field name="branch_id"/>
+                                    <field name="pricing_type" widget="badge"/>
+                                    <field name="base_amount"/>
+                                    <field name="effective_from"/>
+                                    <field name="is_active"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_company_search" model="ir.ui.view">
+        <field name="name">delivery.company.search</field>
+        <field name="model">delivery.company</field>
+        <field name="arch" type="xml">
+            <search string="Search Companies">
+                <field name="name"/>
+                <field name="name_ar"/>
+                <filter name="active" string="Active" domain="[('is_active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('is_active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_cycle" string="Settlement Cycle" context="{'group_by': 'settlement_cycle'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_company" model="ir.actions.act_window">
+        <field name="name">Companies</field>
+        <field name="res_model">delivery.company</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your first delivery platform company</p>
+            <p>Manage partnerships with Keeta, HungerStation, Jahez, Noon Food, Ninja Food and more.</p>
+        </field>
+    </record>
+</odoo>

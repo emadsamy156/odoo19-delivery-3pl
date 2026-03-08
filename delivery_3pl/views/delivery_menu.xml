@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_delivery_3pl_root"
+              name="3PL Delivery"
+              web_icon="delivery_3pl,static/description/icon.png"
+              sequence="10"/>
+
+    <menuitem id="menu_delivery_dashboard"
+              name="Dashboard"
+              parent="menu_delivery_3pl_root"
+              action="action_delivery_dashboard"
+              sequence="1"/>
+
+    <menuitem id="menu_delivery_operations"
+              name="Operations"
+              parent="menu_delivery_3pl_root"
+              sequence="10"/>
+
+    <menuitem id="menu_delivery_companies"
+              name="Companies"
+              parent="menu_delivery_operations"
+              action="action_delivery_company"
+              sequence="10"/>
+
+    <menuitem id="menu_delivery_branches"
+              name="Branches"
+              parent="menu_delivery_operations"
+              action="action_delivery_branch"
+              sequence="15"/>
+
+    <menuitem id="menu_delivery_contracts"
+              name="Contracts"
+              parent="menu_delivery_operations"
+              action="action_delivery_contract"
+              sequence="20"/>
+
+    <menuitem id="menu_delivery_riders"
+              name="Riders"
+              parent="menu_delivery_operations"
+              action="action_delivery_rider"
+              sequence="30"/>
+
+    <menuitem id="menu_delivery_imports"
+              name="Imports"
+              parent="menu_delivery_operations"
+              action="action_delivery_import_session"
+              sequence="40"/>
+
+    <!-- Performance Menu -->
+    <menuitem id="menu_delivery_performance_parent"
+              name="Performance"
+              parent="menu_delivery_3pl_root"
+              sequence="15"/>
+
+    <menuitem id="menu_delivery_daily_performance"
+              name="Daily Performance"
+              parent="menu_delivery_performance_parent"
+              action="action_delivery_daily_performance"
+              sequence="10"/>
+
+    <menuitem id="menu_delivery_monthly_performance"
+              name="Monthly Performance"
+              parent="menu_delivery_performance_parent"
+              action="action_delivery_monthly_performance"
+              sequence="20"/>
+
+    <menuitem id="menu_delivery_company_targets"
+              name="Company Targets"
+              parent="menu_delivery_performance_parent"
+              action="action_delivery_company_target"
+              sequence="30"/>
+
+    <!-- Settlements Menu -->
+    <menuitem id="menu_delivery_settlements_parent"
+              name="Settlements"
+              parent="menu_delivery_3pl_root"
+              sequence="20"/>
+
+    <menuitem id="menu_delivery_settlements"
+              name="Settlements"
+              parent="menu_delivery_settlements_parent"
+              action="action_delivery_settlement"
+              sequence="10"/>
+
+    <menuitem id="menu_delivery_pricing"
+              name="Pricing Rules"
+              parent="menu_delivery_settlements_parent"
+              action="action_delivery_pricing_rule"
+              sequence="20"/>
+
+    <menuitem id="menu_delivery_rider_deductions"
+              name="Rider Deductions"
+              parent="menu_delivery_settlements_parent"
+              action="action_delivery_rider_deduction"
+              sequence="25"/>
+
+    <menuitem id="menu_delivery_penalties"
+              name="Rider Penalties"
+              parent="menu_delivery_settlements_parent"
+              action="action_delivery_rider_penalty"
+              sequence="30"/>
+
+    <menuitem id="menu_delivery_wallet"
+              name="Wallet Transactions"
+              parent="menu_delivery_settlements_parent"
+              action="action_delivery_wallet_transaction"
+              sequence="40"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_delivery_config"
+              name="Configuration"
+              parent="menu_delivery_3pl_root"
+              sequence="90"/>
+
+    <menuitem id="menu_delivery_cities"
+              name="Cities"
+              parent="menu_delivery_config"
+              action="action_delivery_city"
+              sequence="10"/>
+
+    <menuitem id="menu_delivery_rider_types"
+              name="Rider Types"
+              parent="menu_delivery_config"
+              action="action_delivery_rider_type"
+              sequence="20"/>
+
+    <menuitem id="menu_delivery_penalty_types"
+              name="Penalty Types"
+              parent="menu_delivery_config"
+              action="action_delivery_penalty_type"
+              sequence="30"/>
+
+    <menuitem id="menu_delivery_deposit_types"
+              name="Deposit Types"
+              parent="menu_delivery_config"
+              action="action_delivery_deposit_type"
+              sequence="40"/>
+
+    <menuitem id="menu_delivery_validity_criteria"
+              name="Validity Criteria"
+              parent="menu_delivery_config"
+              action="action_delivery_validity_criteria"
+              sequence="50"/>
+
+    <menuitem id="menu_delivery_experience_config"
+              name="Experience Score Config"
+              parent="menu_delivery_config"
+              action="action_delivery_experience_config"
+              sequence="60"/>
+</odoo>

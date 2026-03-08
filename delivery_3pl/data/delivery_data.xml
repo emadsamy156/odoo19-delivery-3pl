@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Rider Types -->
+        <record id="rider_type_internal" model="delivery.rider.type">
+            <field name="name">Internal Rider</field>
+            <field name="name_ar">سائق داخلي</field>
+            <field name="type">internal</field>
+            <field name="has_deposit">True</field>
+            <field name="has_penalties">True</field>
+            <field name="has_wallet">True</field>
+            <field name="description">Internal rider with deposit and full wallet management</field>
+        </record>
+
+        <record id="rider_type_subcontract" model="delivery.rider.type">
+            <field name="name">Subcontract Rider</field>
+            <field name="name_ar">سائق مقاول من الباطن</field>
+            <field name="type">subcontract</field>
+            <field name="has_deposit">False</field>
+            <field name="has_penalties">True</field>
+            <field name="has_wallet">True</field>
+            <field name="description">Subcontract rider managed by a parent rider, no deposit required</field>
+        </record>
+
+        <!-- Saudi Cities -->
+        <record id="city_riyadh" model="delivery.city">
+            <field name="name">Riyadh</field>
+            <field name="name_ar">الرياض</field>
+            <field name="tier">T1</field>
+        </record>
+
+        <record id="city_jeddah" model="delivery.city">
+            <field name="name">Jeddah</field>
+            <field name="name_ar">جدة</field>
+            <field name="tier">T1</field>
+        </record>
+
+        <record id="city_dammam" model="delivery.city">
+            <field name="name">Dammam</field>
+            <field name="name_ar">الدمام</field>
+            <field name="tier">T1</field>
+        </record>
+
+        <record id="city_makkah" model="delivery.city">
+            <field name="name">Makkah</field>
+            <field name="name_ar">مكة المكرمة</field>
+            <field name="tier">T1</field>
+        </record>
+
+        <record id="city_madinah" model="delivery.city">
+            <field name="name">Madinah</field>
+            <field name="name_ar">المدينة المنورة</field>
+            <field name="tier">T1</field>
+        </record>
+
+        <record id="city_khobar" model="delivery.city">
+            <field name="name">Al Khobar</field>
+            <field name="name_ar">الخبر</field>
+            <field name="tier">T2</field>
+        </record>
+
+        <record id="city_tabuk" model="delivery.city">
+            <field name="name">Tabuk</field>
+            <field name="name_ar">تبوك</field>
+            <field name="tier">T2</field>
+        </record>
+
+        <record id="city_abha" model="delivery.city">
+            <field name="name">Abha</field>
+            <field name="name_ar">أبها</field>
+            <field name="tier">T2</field>
+        </record>
+
+        <record id="city_khamis" model="delivery.city">
+            <field name="name">Khamis Mushait</field>
+            <field name="name_ar">خميس مشيط</field>
+            <field name="tier">T2</field>
+        </record>
+
+        <record id="city_hail" model="delivery.city">
+            <field name="name">Hail</field>
+            <field name="name_ar">حائل</field>
+            <field name="tier">T3</field>
+        </record>
+
+        <record id="city_najran" model="delivery.city">
+            <field name="name">Najran</field>
+            <field name="name_ar">نجران</field>
+            <field name="tier">T3</field>
+        </record>
+
+        <record id="city_jazan" model="delivery.city">
+            <field name="name">Jazan</field>
+            <field name="name_ar">جازان</field>
+            <field name="tier">T3</field>
+        </record>
+
+        <!-- Penalty Types -->
+        <record id="penalty_type_late" model="delivery.penalty.type">
+            <field name="name">Late Delivery</field>
+            <field name="name_ar">تأخر في التوصيل</field>
+            <field name="default_amount">10.00</field>
+            <field name="is_percentage">False</field>
+        </record>
+
+        <record id="penalty_type_cancel" model="delivery.penalty.type">
+            <field name="name">Order Cancellation</field>
+            <field name="name_ar">إلغاء الطلب</field>
+            <field name="default_amount">15.00</field>
+            <field name="is_percentage">False</field>
+        </record>
+
+        <record id="penalty_type_damage" model="delivery.penalty.type">
+            <field name="name">Food Damage</field>
+            <field name="name_ar">تلف الطعام</field>
+            <field name="default_amount">25.00</field>
+            <field name="is_percentage">False</field>
+        </record>
+
+        <record id="penalty_type_absence" model="delivery.penalty.type">
+            <field name="name">No-Show / Absence</field>
+            <field name="name_ar">عدم الحضور</field>
+            <field name="default_amount">50.00</field>
+            <field name="is_percentage">False</field>
+        </record>
+
+        <!-- Deposit Types -->
+        <record id="deposit_type_bike" model="delivery.deposit.type">
+            <field name="name">Bike Deposit</field>
+            <field name="name_ar">تأمين الدراجة</field>
+            <field name="default_amount">500.00</field>
+            <field name="is_refundable">True</field>
+        </record>
+
+        <record id="deposit_type_uniform" model="delivery.deposit.type">
+            <field name="name">Uniform Deposit</field>
+            <field name="name_ar">تأمين الزي</field>
+            <field name="default_amount">200.00</field>
+            <field name="is_refundable">True</field>
+        </record>
+
+        <record id="deposit_type_bag" model="delivery.deposit.type">
+            <field name="name">Delivery Bag Deposit</field>
+            <field name="name_ar">تأمين حقيبة التوصيل</field>
+            <field name="default_amount">150.00</field>
+            <field name="is_refundable">True</field>
+        </record>
+    </data>
+</odoo>

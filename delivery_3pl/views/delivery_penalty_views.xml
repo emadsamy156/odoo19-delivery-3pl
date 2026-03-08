@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_penalty_type_tree" model="ir.ui.view">
+        <field name="name">delivery.penalty.type.tree</field>
+        <field name="model">delivery.penalty.type</field>
+        <field name="arch" type="xml">
+            <tree string="Penalty Types">
+                <field name="name"/>
+                <field name="name_ar"/>
+                <field name="default_amount"/>
+                <field name="is_percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_penalty_type_form" model="ir.ui.view">
+        <field name="name">delivery.penalty.type.form</field>
+        <field name="model">delivery.penalty.type</field>
+        <field name="arch" type="xml">
+            <form string="Penalty Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="name_ar"/>
+                        </group>
+                        <group>
+                            <field name="default_amount"/>
+                            <field name="is_percentage"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_penalty_type" model="ir.actions.act_window">
+        <field name="name">Penalty Types</field>
+        <field name="res_model">delivery.penalty.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_delivery_deposit_type_tree" model="ir.ui.view">
+        <field name="name">delivery.deposit.type.tree</field>
+        <field name="model">delivery.deposit.type</field>
+        <field name="arch" type="xml">
+            <tree string="Deposit Types">
+                <field name="name"/>
+                <field name="name_ar"/>
+                <field name="default_amount"/>
+                <field name="is_refundable"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_deposit_type_form" model="ir.ui.view">
+        <field name="name">delivery.deposit.type.form</field>
+        <field name="model">delivery.deposit.type</field>
+        <field name="arch" type="xml">
+            <form string="Deposit Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="name_ar"/>
+                        </group>
+                        <group>
+                            <field name="default_amount"/>
+                            <field name="is_refundable"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_deposit_type" model="ir.actions.act_window">
+        <field name="name">Deposit Types</field>
+        <field name="res_model">delivery.deposit.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_delivery_rider_penalty_tree" model="ir.ui.view">
+        <field name="name">delivery.rider.penalty.tree</field>
+        <field name="model">delivery.rider.penalty</field>
+        <field name="arch" type="xml">
+            <tree string="Rider Penalties" decoration-danger="status == 'pending'"
+                  decoration-muted="status == 'waived'">
+                <field name="rider_id"/>
+                <field name="penalty_type_id"/>
+                <field name="amount"/>
+                <field name="date"/>
+                <field name="reason"/>
+                <field name="settlement_id"/>
+                <field name="status" widget="badge"
+                       decoration-warning="status == 'pending'"
+                       decoration-success="status == 'applied'"
+                       decoration-muted="status == 'waived'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_rider_penalty_form" model="ir.ui.view">
+        <field name="name">delivery.rider.penalty.form</field>
+        <field name="model">delivery.rider.penalty</field>
+        <field name="arch" type="xml">
+            <form string="Rider Penalty">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="rider_id"/>
+                            <field name="penalty_type_id"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="settlement_id"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                    <field name="reason"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_rider_penalty_search" model="ir.ui.view">
+        <field name="name">delivery.rider.penalty.search</field>
+        <field name="model">delivery.rider.penalty</field>
+        <field name="arch" type="xml">
+            <search string="Search Penalties">
+                <field name="rider_id"/>
+                <filter name="pending" string="Pending" domain="[('status', '=', 'pending')]"/>
+                <filter name="applied" string="Applied" domain="[('status', '=', 'applied')]"/>
+                <filter name="waived" string="Waived" domain="[('status', '=', 'waived')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_rider" string="Rider" context="{'group_by': 'rider_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'penalty_type_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_rider_penalty" model="ir.actions.act_window">
+        <field name="name">Rider Penalties</field>
+        <field name="res_model">delivery.rider.penalty</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

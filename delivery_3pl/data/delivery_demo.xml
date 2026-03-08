@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ==================== Demo Companies ==================== -->
+        <record id="company_keeta" model="delivery.company">
+            <field name="name">Keeta</field>
+            <field name="name_ar">كيتا</field>
+            <field name="contact_email">operations@keeta.sa</field>
+            <field name="contact_phone">+966501234567</field>
+            <field name="settlement_cycle">weekly</field>
+        </record>
+
+        <record id="company_hungerstation" model="delivery.company">
+            <field name="name">HungerStation</field>
+            <field name="name_ar">هنقرستيشن</field>
+            <field name="contact_email">partners@hungerstation.com</field>
+            <field name="contact_phone">+966509876543</field>
+            <field name="settlement_cycle">semi_monthly</field>
+        </record>
+
+        <record id="company_jahez" model="delivery.company">
+            <field name="name">Jahez</field>
+            <field name="name_ar">جاهز</field>
+            <field name="contact_email">fleet@jahez.net</field>
+            <field name="contact_phone">+966551112233</field>
+            <field name="settlement_cycle">monthly</field>
+        </record>
+
+        <record id="company_noon" model="delivery.company">
+            <field name="name">Noon Food</field>
+            <field name="name_ar">نون فود</field>
+            <field name="contact_email">delivery@noon.com</field>
+            <field name="contact_phone">+966554443322</field>
+            <field name="settlement_cycle">monthly</field>
+        </record>
+
+        <record id="company_ninja" model="delivery.company">
+            <field name="name">Ninja Food</field>
+            <field name="name_ar">نينجا فود</field>
+            <field name="contact_email">ops@ninjafood.sa</field>
+            <field name="contact_phone">+966557778899</field>
+            <field name="settlement_cycle">monthly</field>
+        </record>
+
+        <!-- ==================== Demo Branches ==================== -->
+        <record id="branch_keeta_riyadh" model="delivery.company.branch">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Keeta - Riyadh</field>
+            <field name="name_ar">كيتا - الرياض</field>
+            <field name="branch_code">KTA-RUH</field>
+        </record>
+
+        <record id="branch_keeta_jeddah" model="delivery.company.branch">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="city_id" ref="city_jeddah"/>
+            <field name="name">Keeta - Jeddah</field>
+            <field name="name_ar">كيتا - جدة</field>
+            <field name="branch_code">KTA-JED</field>
+        </record>
+
+        <record id="branch_hs_riyadh" model="delivery.company.branch">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">HungerStation - Riyadh</field>
+            <field name="name_ar">هنقرستيشن - الرياض</field>
+            <field name="branch_code">HS-RUH</field>
+        </record>
+
+        <record id="branch_hs_dammam" model="delivery.company.branch">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="city_id" ref="city_dammam"/>
+            <field name="name">HungerStation - Dammam</field>
+            <field name="name_ar">هنقرستيشن - الدمام</field>
+            <field name="branch_code">HS-DMM</field>
+        </record>
+
+        <record id="branch_jahez_riyadh" model="delivery.company.branch">
+            <field name="company_id" ref="company_jahez"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Jahez - Riyadh</field>
+            <field name="name_ar">جاهز - الرياض</field>
+            <field name="branch_code">JHZ-RUH</field>
+        </record>
+
+        <record id="branch_jahez_makkah" model="delivery.company.branch">
+            <field name="company_id" ref="company_jahez"/>
+            <field name="city_id" ref="city_makkah"/>
+            <field name="name">Jahez - Makkah</field>
+            <field name="name_ar">جاهز - مكة</field>
+            <field name="branch_code">JHZ-MKH</field>
+        </record>
+
+        <record id="branch_noon_riyadh" model="delivery.company.branch">
+            <field name="company_id" ref="company_noon"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Noon Food - Riyadh</field>
+            <field name="name_ar">نون فود - الرياض</field>
+            <field name="branch_code">NOON-RUH</field>
+        </record>
+
+        <record id="branch_ninja_riyadh" model="delivery.company.branch">
+            <field name="company_id" ref="company_ninja"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Ninja Food - Riyadh</field>
+            <field name="name_ar">نينجا فود - الرياض</field>
+            <field name="branch_code">NJF-RUH</field>
+        </record>
+
+        <record id="branch_ninja_jeddah" model="delivery.company.branch">
+            <field name="company_id" ref="company_ninja"/>
+            <field name="city_id" ref="city_jeddah"/>
+            <field name="name">Ninja Food - Jeddah</field>
+            <field name="name_ar">نينجا فود - جدة</field>
+            <field name="branch_code">NJF-JED</field>
+        </record>
+
+        <!-- ==================== Demo Contracts (Branch-linked) ==================== -->
+        <record id="contract_keeta_riyadh_v1" model="delivery.contract">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_number">KTA-RUH-2024-001</field>
+            <field name="contract_type">parcel</field>
+            <field name="version">1</field>
+            <field name="status">expired</field>
+            <field name="start_date">2024-01-01</field>
+            <field name="end_date">2024-06-30</field>
+            <field name="settlement_cycle">weekly</field>
+            <field name="commission_rate">12.5</field>
+            <field name="payment_terms_days">7</field>
+        </record>
+
+        <record id="contract_keeta_riyadh_v2" model="delivery.contract">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_number">KTA-RUH-2024-001</field>
+            <field name="contract_type">parcel</field>
+            <field name="version">2</field>
+            <field name="status">active</field>
+            <field name="start_date">2024-07-01</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="settlement_cycle">weekly</field>
+            <field name="commission_rate">11.0</field>
+            <field name="payment_terms_days">7</field>
+            <field name="auto_renew">True</field>
+        </record>
+
+        <record id="contract_keeta_jeddah_v1" model="delivery.contract">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_jeddah"/>
+            <field name="contract_number">KTA-JED-2025-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2025-01-01</field>
+            <field name="end_date">2025-12-31</field>
+            <field name="settlement_cycle">weekly</field>
+            <field name="commission_rate">12.0</field>
+            <field name="payment_terms_days">7</field>
+        </record>
+
+        <record id="contract_hs_riyadh_v1" model="delivery.contract">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="branch_id" ref="branch_hs_riyadh"/>
+            <field name="contract_number">HS-RUH-2024-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2024-03-01</field>
+            <field name="end_date">2025-02-28</field>
+            <field name="settlement_cycle">semi_monthly</field>
+            <field name="commission_rate">15.0</field>
+            <field name="payment_terms_days">15</field>
+        </record>
+
+        <record id="contract_hs_dammam_v1" model="delivery.contract">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="branch_id" ref="branch_hs_dammam"/>
+            <field name="contract_number">HS-DMM-2024-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2024-06-01</field>
+            <field name="end_date">2025-05-31</field>
+            <field name="settlement_cycle">semi_monthly</field>
+            <field name="commission_rate">14.5</field>
+            <field name="payment_terms_days">15</field>
+        </record>
+
+        <record id="contract_jahez_riyadh_v1" model="delivery.contract">
+            <field name="company_id" ref="company_jahez"/>
+            <field name="branch_id" ref="branch_jahez_riyadh"/>
+            <field name="contract_number">JHZ-RUH-2024-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2024-01-15</field>
+            <field name="end_date">2025-01-14</field>
+            <field name="settlement_cycle">monthly</field>
+            <field name="commission_rate">13.5</field>
+            <field name="payment_terms_days">30</field>
+        </record>
+
+        <record id="contract_jahez_makkah_v1" model="delivery.contract">
+            <field name="company_id" ref="company_jahez"/>
+            <field name="branch_id" ref="branch_jahez_makkah"/>
+            <field name="contract_number">JHZ-MKH-2025-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2025-02-01</field>
+            <field name="end_date">2026-01-31</field>
+            <field name="settlement_cycle">monthly</field>
+            <field name="commission_rate">14.0</field>
+            <field name="payment_terms_days">30</field>
+        </record>
+
+        <record id="contract_noon_riyadh_v1" model="delivery.contract">
+            <field name="company_id" ref="company_noon"/>
+            <field name="branch_id" ref="branch_noon_riyadh"/>
+            <field name="contract_number">NOON-RUH-2024-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2024-06-01</field>
+            <field name="end_date">2025-05-31</field>
+            <field name="settlement_cycle">monthly</field>
+            <field name="commission_rate">14.0</field>
+            <field name="payment_terms_days">30</field>
+        </record>
+
+        <record id="contract_ninja_riyadh_v1" model="delivery.contract">
+            <field name="company_id" ref="company_ninja"/>
+            <field name="branch_id" ref="branch_ninja_riyadh"/>
+            <field name="contract_number">NJF-RUH-2025-001</field>
+            <field name="version">1</field>
+            <field name="status">active</field>
+            <field name="start_date">2025-01-01</field>
+            <field name="end_date">2025-12-31</field>
+            <field name="settlement_cycle">monthly</field>
+            <field name="commission_rate">10.0</field>
+            <field name="payment_terms_days">30</field>
+        </record>
+
+        <!-- ==================== Demo Pricing Rules ==================== -->
+        <!-- Keeta Riyadh: Tiered slabs -->
+        <record id="pricing_keeta_riyadh_tiered" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Keeta Riyadh - Tiered</field>
+            <field name="pricing_type">tiered</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">10.00</field>
+            <field name="effective_from">2024-07-01</field>
+            <field name="effective_to">2025-06-30</field>
+        </record>
+
+        <!-- Tiered slabs for Keeta Riyadh -->
+        <record id="slab_keeta_riyadh_1" model="delivery.pricing.slab">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_tiered"/>
+            <field name="sequence">1</field>
+            <field name="from_orders">1</field>
+            <field name="to_orders">50</field>
+            <field name="price_per_order">10.00</field>
+            <field name="label">Base tier</field>
+        </record>
+
+        <record id="slab_keeta_riyadh_2" model="delivery.pricing.slab">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_tiered"/>
+            <field name="sequence">2</field>
+            <field name="from_orders">51</field>
+            <field name="to_orders">100</field>
+            <field name="price_per_order">12.00</field>
+            <field name="label">Mid tier</field>
+        </record>
+
+        <record id="slab_keeta_riyadh_3" model="delivery.pricing.slab">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_tiered"/>
+            <field name="sequence">3</field>
+            <field name="from_orders">101</field>
+            <field name="to_orders">0</field>
+            <field name="price_per_order">14.00</field>
+            <field name="label">Top tier</field>
+        </record>
+
+        <!-- HungerStation Riyadh: Per-distance with vehicle type -->
+        <record id="pricing_hs_riyadh_car" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="branch_id" ref="branch_hs_riyadh"/>
+            <field name="contract_id" ref="contract_hs_riyadh_v1"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">HS Riyadh - Per Distance (Car)</field>
+            <field name="pricing_type">per_distance</field>
+            <field name="vehicle_type">car</field>
+            <field name="rider_performance_level">all</field>
+            <field name="base_amount">8.00</field>
+            <field name="per_km_amount">2.50</field>
+            <field name="km_start_from">2</field>
+            <field name="max_km">25</field>
+            <field name="effective_from">2024-03-01</field>
+            <field name="effective_to">2025-02-28</field>
+        </record>
+
+        <record id="pricing_hs_riyadh_moto" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="branch_id" ref="branch_hs_riyadh"/>
+            <field name="contract_id" ref="contract_hs_riyadh_v1"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">HS Riyadh - Per Distance (Motorcycle)</field>
+            <field name="pricing_type">per_distance</field>
+            <field name="vehicle_type">motorcycle</field>
+            <field name="rider_performance_level">all</field>
+            <field name="base_amount">6.00</field>
+            <field name="per_km_amount">2.00</field>
+            <field name="km_start_from">2</field>
+            <field name="max_km">15</field>
+            <field name="effective_from">2024-03-01</field>
+            <field name="effective_to">2025-02-28</field>
+        </record>
+
+        <!-- Jahez Riyadh: Per-order -->
+        <record id="pricing_jahez_riyadh" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_jahez"/>
+            <field name="branch_id" ref="branch_jahez_riyadh"/>
+            <field name="contract_id" ref="contract_jahez_riyadh_v1"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Jahez Riyadh - Per Order</field>
+            <field name="pricing_type">per_order</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">12.50</field>
+            <field name="cod_rate">13.50</field>
+            <field name="paid_rate">12.00</field>
+            <field name="stacking_discount">2.00</field>
+            <field name="effective_from">2024-01-15</field>
+            <field name="effective_to">2025-01-14</field>
+        </record>
+
+        <!-- Noon Food Riyadh: Per-order -->
+        <record id="pricing_noon_riyadh" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_noon"/>
+            <field name="branch_id" ref="branch_noon_riyadh"/>
+            <field name="contract_id" ref="contract_noon_riyadh_v1"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Noon Food Riyadh - Per Order</field>
+            <field name="pricing_type">per_order</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">11.00</field>
+            <field name="cod_rate">12.00</field>
+            <field name="effective_from">2024-06-01</field>
+            <field name="effective_to">2025-05-31</field>
+        </record>
+
+        <!-- Ninja Food Riyadh: Fixed Salary -->
+        <record id="pricing_ninja_riyadh_salary" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_ninja"/>
+            <field name="branch_id" ref="branch_ninja_riyadh"/>
+            <field name="contract_id" ref="contract_ninja_riyadh_v1"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Ninja Riyadh - Fixed Salary</field>
+            <field name="pricing_type">fixed_salary</field>
+            <field name="vehicle_type">motorcycle</field>
+            <field name="rider_performance_level">all</field>
+            <field name="base_amount">0</field>
+            <field name="daily_rate">150.00</field>
+            <field name="working_days">26</field>
+            <field name="fallback_per_order">10.00</field>
+            <field name="bonus_threshold">15</field>
+            <field name="bonus_per_order">5.00</field>
+            <field name="shift_adherence_min">85.0</field>
+            <field name="on_time_delivery_min">90.0</field>
+            <field name="order_acceptance_min">80.0</field>
+            <field name="effective_from">2025-01-01</field>
+            <field name="effective_to">2025-12-31</field>
+        </record>
+
+        <!-- Keeta Jeddah: Tiered slabs -->
+        <record id="pricing_keeta_jeddah_tiered" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_jeddah"/>
+            <field name="contract_id" ref="contract_keeta_jeddah_v1"/>
+            <field name="city_id" ref="city_jeddah"/>
+            <field name="name">Keeta Jeddah - Tiered</field>
+            <field name="pricing_type">tiered</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">9.00</field>
+            <field name="effective_from">2025-01-01</field>
+            <field name="effective_to">2025-12-31</field>
+        </record>
+
+        <record id="slab_keeta_jeddah_1" model="delivery.pricing.slab">
+            <field name="pricing_rule_id" ref="pricing_keeta_jeddah_tiered"/>
+            <field name="sequence">1</field>
+            <field name="from_orders">1</field>
+            <field name="to_orders">40</field>
+            <field name="price_per_order">9.00</field>
+            <field name="label">Base tier</field>
+        </record>
+
+        <record id="slab_keeta_jeddah_2" model="delivery.pricing.slab">
+            <field name="pricing_rule_id" ref="pricing_keeta_jeddah_tiered"/>
+            <field name="sequence">2</field>
+            <field name="from_orders">41</field>
+            <field name="to_orders">80</field>
+            <field name="price_per_order">11.00</field>
+            <field name="label">Mid tier</field>
+        </record>
+
+        <record id="slab_keeta_jeddah_3" model="delivery.pricing.slab">
+            <field name="pricing_rule_id" ref="pricing_keeta_jeddah_tiered"/>
+            <field name="sequence">3</field>
+            <field name="from_orders">81</field>
+            <field name="to_orders">0</field>
+            <field name="price_per_order">13.00</field>
+            <field name="label">Top tier</field>
+        </record>
+
+        <!-- HungerStation Dammam: Per-distance -->
+        <record id="pricing_hs_dammam_distance" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_hungerstation"/>
+            <field name="branch_id" ref="branch_hs_dammam"/>
+            <field name="contract_id" ref="contract_hs_dammam_v1"/>
+            <field name="city_id" ref="city_dammam"/>
+            <field name="name">HS Dammam - Per Distance</field>
+            <field name="pricing_type">per_distance</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">7.00</field>
+            <field name="per_km_amount">2.00</field>
+            <field name="km_start_from">1</field>
+            <field name="max_km">20</field>
+            <field name="effective_from">2024-06-01</field>
+            <field name="effective_to">2025-05-31</field>
+        </record>
+
+        <!-- ==================== Capacity Incentive Pricing Rule ==================== -->
+        <record id="pricing_keeta_riyadh_capacity" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Keeta Riyadh - Capacity Incentive</field>
+            <field name="pricing_type">capacity_incentive</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">0</field>
+            <field name="effective_from">2024-07-01</field>
+            <field name="effective_to">2025-06-30</field>
+        </record>
+
+        <record id="incentive_level_capacity_a" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_capacity"/>
+            <field name="sequence">1</field>
+            <field name="level">A</field>
+            <field name="range_from">120</field>
+            <field name="range_to">999</field>
+            <field name="bike_amount">2000</field>
+            <field name="car_amount">2500</field>
+        </record>
+
+        <record id="incentive_level_capacity_b" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_capacity"/>
+            <field name="sequence">2</field>
+            <field name="level">B</field>
+            <field name="range_from">100</field>
+            <field name="range_to">119</field>
+            <field name="bike_amount">1200</field>
+            <field name="car_amount">2000</field>
+        </record>
+
+        <record id="incentive_level_capacity_c" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_capacity"/>
+            <field name="sequence">3</field>
+            <field name="level">C</field>
+            <field name="range_from">90</field>
+            <field name="range_to">99</field>
+            <field name="bike_amount">900</field>
+            <field name="car_amount">1700</field>
+        </record>
+
+        <record id="incentive_level_capacity_d" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_capacity"/>
+            <field name="sequence">4</field>
+            <field name="level">D</field>
+            <field name="range_from">0</field>
+            <field name="range_to">89</field>
+            <field name="bike_amount">0</field>
+            <field name="car_amount">0</field>
+            <field name="notes">Below target - no capacity incentive</field>
+        </record>
+
+        <!-- ==================== Experience Incentive Pricing Rule ==================== -->
+        <record id="pricing_keeta_riyadh_experience" model="delivery.pricing.rule">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="name">Keeta Riyadh - Experience Incentive</field>
+            <field name="pricing_type">experience_incentive</field>
+            <field name="vehicle_type">all</field>
+            <field name="base_amount">0</field>
+            <field name="effective_from">2024-07-01</field>
+            <field name="effective_to">2025-06-30</field>
+        </record>
+
+        <record id="incentive_level_exp_a" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_experience"/>
+            <field name="sequence">1</field>
+            <field name="level">A</field>
+            <field name="range_from">0</field>
+            <field name="range_to">25</field>
+            <field name="bike_amount">700</field>
+            <field name="car_amount">900</field>
+            <field name="notes">Top 25% experience rank</field>
+        </record>
+
+        <record id="incentive_level_exp_b" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_experience"/>
+            <field name="sequence">2</field>
+            <field name="level">B</field>
+            <field name="range_from">25</field>
+            <field name="range_to">50</field>
+            <field name="bike_amount">400</field>
+            <field name="car_amount">600</field>
+            <field name="notes">25-50% experience rank</field>
+        </record>
+
+        <record id="incentive_level_exp_c" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_experience"/>
+            <field name="sequence">3</field>
+            <field name="level">C</field>
+            <field name="range_from">50</field>
+            <field name="range_to">75</field>
+            <field name="bike_amount">200</field>
+            <field name="car_amount">350</field>
+            <field name="notes">50-75% experience rank</field>
+        </record>
+
+        <record id="incentive_level_exp_d" model="delivery.incentive.level">
+            <field name="pricing_rule_id" ref="pricing_keeta_riyadh_experience"/>
+            <field name="sequence">4</field>
+            <field name="level">D</field>
+            <field name="range_from">75</field>
+            <field name="range_to">100</field>
+            <field name="bike_amount">0</field>
+            <field name="car_amount">0</field>
+            <field name="notes">Bottom 25% - no experience incentive</field>
+        </record>
+
+        <!-- ==================== Validity Criteria ==================== -->
+        <record id="validity_keeta_riyadh" model="delivery.validity.criteria">
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="company_id" ref="company_keeta"/>
+            <field name="name">Keeta Riyadh - Valid DA Criteria</field>
+            <field name="min_daily_online_hours">10.0</field>
+            <field name="min_valid_days">26</field>
+            <field name="must_attend_first_days">3</field>
+            <field name="must_attend_last_days">4</field>
+            <field name="must_attend_min_valid">6</field>
+            <field name="min_monthly_orders">300</field>
+            <field name="min_orders_must_attend_day">6</field>
+            <field name="min_calendar_pct_mid_month">90.0</field>
+            <field name="validity_pct_threshold">99.0</field>
+            <field name="facial_verification_min_pct">80.0</field>
+            <field name="max_cheating_rider_pct">10.0</field>
+            <field name="duplicate_iqama_policy">first_only</field>
+        </record>
+
+        <record id="validity_keeta_jeddah" model="delivery.validity.criteria">
+            <field name="contract_id" ref="contract_keeta_jeddah_v1"/>
+            <field name="branch_id" ref="branch_keeta_jeddah"/>
+            <field name="company_id" ref="company_keeta"/>
+            <field name="name">Keeta Jeddah - Valid DA Criteria</field>
+            <field name="min_daily_online_hours">10.0</field>
+            <field name="min_valid_days">26</field>
+            <field name="must_attend_first_days">3</field>
+            <field name="must_attend_last_days">4</field>
+            <field name="must_attend_min_valid">6</field>
+            <field name="min_monthly_orders">250</field>
+            <field name="min_orders_must_attend_day">5</field>
+        </record>
+
+        <!-- ==================== Experience Score Config ==================== -->
+        <record id="experience_config_keeta" model="delivery.experience.score.config">
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="company_id" ref="company_keeta"/>
+            <field name="name">Keeta - Experience Score Formula</field>
+            <field name="on_time_delivery_weight">38.0</field>
+            <field name="cancellation_rate_weight">50.0</field>
+            <field name="advance_delivery_weight">12.0</field>
+            <field name="min_orders_for_ranking">100</field>
+            <field name="only_valid_da_eligible">True</field>
+            <field name="notes">Score = OTD×38% + (1-Cancel)×50% + (1-Advance)×12%. Min 100 orders to rank.</field>
+        </record>
+
+        <!-- ==================== Company Targets ==================== -->
+        <record id="target_keeta_riyadh_feb2026" model="delivery.company.target">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="month">2</field>
+            <field name="year">2026</field>
+            <field name="level_a_min_valid_das">120</field>
+            <field name="level_a_max_valid_das">999</field>
+            <field name="level_b_min_valid_das">100</field>
+            <field name="level_b_max_valid_das">119</field>
+            <field name="level_c_min_valid_das">90</field>
+            <field name="level_c_max_valid_das">99</field>
+            <field name="level_d_below">90</field>
+            <field name="level_a_bike_amount">2000</field>
+            <field name="level_a_car_amount">2500</field>
+            <field name="level_b_bike_amount">1200</field>
+            <field name="level_b_car_amount">2000</field>
+            <field name="level_c_bike_amount">900</field>
+            <field name="level_c_car_amount">1700</field>
+        </record>
+
+        <record id="target_keeta_riyadh_mar2026" model="delivery.company.target">
+            <field name="company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="contract_id" ref="contract_keeta_riyadh_v2"/>
+            <field name="month">3</field>
+            <field name="year">2026</field>
+            <field name="level_a_min_valid_das">130</field>
+            <field name="level_a_max_valid_das">999</field>
+            <field name="level_b_min_valid_das">110</field>
+            <field name="level_b_max_valid_das">129</field>
+            <field name="level_c_min_valid_das">95</field>
+            <field name="level_c_max_valid_das">109</field>
+            <field name="level_d_below">95</field>
+            <field name="level_a_bike_amount">2200</field>
+            <field name="level_a_car_amount">2700</field>
+            <field name="level_b_bike_amount">1400</field>
+            <field name="level_b_car_amount">2200</field>
+            <field name="level_c_bike_amount">1000</field>
+            <field name="level_c_car_amount">1800</field>
+            <field name="notes">Increased targets for March - Ramadan month</field>
+        </record>
+
+        <!-- ==================== Demo Riders with new fields ==================== -->
+        <record id="rider_ahmed" model="delivery.rider">
+            <field name="name">Ahmed Al-Rashidi</field>
+            <field name="name_ar">أحمد الرشيدي</field>
+            <field name="phone">+966501001001</field>
+            <field name="national_id">1234567890</field>
+            <field name="platform_account_id">KTA-RUH-001</field>
+            <field name="rider_type_id" ref="rider_type_internal"/>
+            <field name="primary_company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="vehicle_type">motorcycle</field>
+            <field name="status">active</field>
+            <field name="is_valid_da">True</field>
+            <field name="experience_score">85.5</field>
+            <field name="performance_level">A</field>
+            <field name="valid_days_count">28</field>
+            <field name="join_date">2024-03-15</field>
+            <field name="work_start_date">2024-03-15</field>
+        </record>
+
+        <record id="rider_mohammad" model="delivery.rider">
+            <field name="name">Mohammad Al-Harbi</field>
+            <field name="name_ar">محمد الحربي</field>
+            <field name="phone">+966502002002</field>
+            <field name="national_id">9876543210</field>
+            <field name="platform_account_id">KTA-RUH-002</field>
+            <field name="rider_type_id" ref="rider_type_internal"/>
+            <field name="primary_company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="vehicle_type">car</field>
+            <field name="status">active</field>
+            <field name="is_valid_da">True</field>
+            <field name="experience_score">72.3</field>
+            <field name="performance_level">B</field>
+            <field name="valid_days_count">26</field>
+            <field name="join_date">2024-06-01</field>
+            <field name="work_start_date">2024-06-01</field>
+        </record>
+
+        <record id="rider_fahad" model="delivery.rider">
+            <field name="name">Fahad Al-Otaibi</field>
+            <field name="name_ar">فهد العتيبي</field>
+            <field name="phone">+966503003003</field>
+            <field name="national_id">5678901234</field>
+            <field name="platform_account_id">KTA-RUH-003</field>
+            <field name="rider_type_id" ref="rider_type_internal"/>
+            <field name="primary_company_id" ref="company_keeta"/>
+            <field name="branch_id" ref="branch_keeta_riyadh"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="vehicle_type">motorcycle</field>
+            <field name="status">active</field>
+            <field name="is_valid_da">False</field>
+            <field name="validity_reason">Only 22 valid days (min 26)</field>
+            <field name="experience_score">45.0</field>
+            <field name="performance_level">D</field>
+            <field name="valid_days_count">22</field>
+            <field name="join_date">2025-01-10</field>
+            <field name="work_start_date">2025-01-10</field>
+        </record>
+
+        <record id="rider_khalid" model="delivery.rider">
+            <field name="name">Khalid Al-Ghamdi</field>
+            <field name="name_ar">خالد الغامدي</field>
+            <field name="phone">+966504004004</field>
+            <field name="national_id">3456789012</field>
+            <field name="platform_account_id">HS-RUH-001</field>
+            <field name="rider_type_id" ref="rider_type_internal"/>
+            <field name="primary_company_id" ref="company_hungerstation"/>
+            <field name="branch_id" ref="branch_hs_riyadh"/>
+            <field name="city_id" ref="city_riyadh"/>
+            <field name="vehicle_type">car</field>
+            <field name="status">active</field>
+            <field name="is_valid_da">True</field>
+            <field name="experience_score">91.2</field>
+            <field name="performance_level">A</field>
+            <field name="valid_days_count">30</field>
+            <field name="join_date">2023-11-01</field>
+            <field name="work_start_date">2023-11-01</field>
+        </record>
+
+        <!-- ==================== Demo Rider Deductions ==================== -->
+        <record id="deduction_ahmed_feb2026" model="delivery.rider.deduction">
+            <field name="rider_id" ref="rider_ahmed"/>
+            <field name="month">2</field>
+            <field name="year">2026</field>
+            <field name="fuel_deduction">350.00</field>
+            <field name="food_allowance">200.00</field>
+            <field name="collection_amount">15200.00</field>
+        </record>
+
+        <record id="deduction_mohammad_feb2026" model="delivery.rider.deduction">
+            <field name="rider_id" ref="rider_mohammad"/>
+            <field name="month">2</field>
+            <field name="year">2026</field>
+            <field name="fuel_deduction">500.00</field>
+            <field name="car_rent">1500.00</field>
+            <field name="food_allowance">200.00</field>
+            <field name="collection_amount">18500.00</field>
+        </record>
+
+        <record id="deduction_fahad_feb2026" model="delivery.rider.deduction">
+            <field name="rider_id" ref="rider_fahad"/>
+            <field name="month">2</field>
+            <field name="year">2026</field>
+            <field name="fuel_deduction">280.00</field>
+            <field name="advance_salary">1000.00</field>
+            <field name="food_allowance">200.00</field>
+            <field name="collection_amount">8700.00</field>
+        </record>
+    </data>
+</odoo>

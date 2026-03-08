@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_settlement_tree" model="ir.ui.view">
+        <field name="name">delivery.settlement.tree</field>
+        <field name="model">delivery.settlement</field>
+        <field name="arch" type="xml">
+            <tree string="Settlements" decoration-success="status == 'approved'"
+                  decoration-info="status == 'locked'">
+                <field name="settlement_number"/>
+                <field name="company_id"/>
+                <field name="branch_id" optional="show"/>
+                <field name="contract_id" optional="hide"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="cycle"/>
+                <field name="total_orders"/>
+                <field name="gross_amount"/>
+                <field name="order_base_total" optional="show"/>
+                <field name="capacity_incentive_total" optional="show"/>
+                <field name="experience_incentive_total" optional="show"/>
+                <field name="penalties"/>
+                <field name="net_amount"/>
+                <field name="valid_rider_count" optional="show"/>
+                <field name="status" widget="badge"
+                       decoration-info="status == 'draft'"
+                       decoration-warning="status == 'pending_approval'"
+                       decoration-success="status == 'approved'"
+                       decoration-muted="status == 'locked'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_settlement_form" model="ir.ui.view">
+        <field name="name">delivery.settlement.form</field>
+        <field name="model">delivery.settlement</field>
+        <field name="arch" type="xml">
+            <form string="Settlement">
+                <header>
+                    <button name="action_submit_for_approval" type="object" string="Submit for Approval"
+                            class="oe_highlight"
+                            invisible="status != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="oe_highlight"
+                            invisible="status != 'pending_approval'"/>
+                    <button name="action_lock" type="object" string="Lock"
+                            invisible="status != 'approved'"
+                            confirm="Locking this settlement is irreversible. Continue?"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="status in ('draft', 'locked')"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,pending_approval,approved,locked"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="settlement_number" placeholder="Settlement Number"/></h1>
+                    </div>
+                    <group>
+                        <group string="General">
+                            <field name="company_id"/>
+                            <field name="branch_id"/>
+                            <field name="contract_id"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                            <field name="cycle"/>
+                        </group>
+                        <group string="Financial Summary">
+                            <field name="total_orders"/>
+                            <field name="gross_amount"/>
+                            <field name="order_base_total"/>
+                            <field name="capacity_incentive_total"/>
+                            <field name="experience_incentive_total"/>
+                            <field name="subsidy_total"/>
+                            <field name="dxg_total"/>
+                            <field name="tips_total"/>
+                            <field name="penalties"/>
+                            <field name="bonuses"/>
+                            <field name="adjustments"/>
+                            <field name="vat_amount"/>
+                            <field name="net_amount" class="oe_subtotal_footer_bold"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Rider Summary">
+                            <field name="valid_rider_count"/>
+                            <field name="invalid_rider_count"/>
+                        </group>
+                        <group string="Approval" invisible="status not in ('approved', 'locked')">
+                            <field name="approved_by"/>
+                            <field name="approved_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Settlement Items (Per Rider)" name="items">
+                            <field name="item_ids">
+                                <tree string="Items" editable="bottom">
+                                    <field name="rider_id"/>
+                                    <field name="is_valid_da"/>
+                                    <field name="orders"/>
+                                    <field name="order_base_amount"/>
+                                    <field name="capacity_incentive"/>
+                                    <field name="experience_incentive"/>
+                                    <field name="subsidy"/>
+                                    <field name="dxg" optional="show"/>
+                                    <field name="other_activities" optional="show"/>
+                                    <field name="tips_excl_vat" optional="show"/>
+                                    <field name="food_damage" optional="show"/>
+                                    <field name="gross_amount"/>
+                                    <field name="penalties"/>
+                                    <field name="bonuses"/>
+                                    <field name="deposits" optional="show"/>
+                                    <field name="adjustments" optional="show"/>
+                                    <field name="net_amount"/>
+                                    <field name="notes" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_settlement_search" model="ir.ui.view">
+        <field name="name">delivery.settlement.search</field>
+        <field name="model">delivery.settlement</field>
+        <field name="arch" type="xml">
+            <search string="Search Settlements">
+                <field name="settlement_number"/>
+                <field name="company_id"/>
+                <field name="branch_id"/>
+                <filter name="draft" string="Draft" domain="[('status', '=', 'draft')]"/>
+                <filter name="pending" string="Pending Approval" domain="[('status', '=', 'pending_approval')]"/>
+                <filter name="approved" string="Approved" domain="[('status', '=', 'approved')]"/>
+                <filter name="locked" string="Locked" domain="[('status', '=', 'locked')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                    <filter name="group_branch" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_cycle" string="Cycle" context="{'group_by': 'cycle'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_settlement" model="ir.actions.act_window">
+        <field name="name">Settlements</field>
+        <field name="res_model">delivery.settlement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first settlement</p>
+            <p>Settlements track rider payments per company branch per period. Workflow: Draft → Pending Approval → Approved → Locked.</p>
+        </field>
+    </record>
+</odoo>

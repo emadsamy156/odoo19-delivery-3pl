@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_rider_type_tree" model="ir.ui.view">
+        <field name="name">delivery.rider.type.tree</field>
+        <field name="model">delivery.rider.type</field>
+        <field name="arch" type="xml">
+            <tree string="Rider Types">
+                <field name="name"/>
+                <field name="name_ar"/>
+                <field name="type" widget="badge"/>
+                <field name="has_deposit"/>
+                <field name="has_penalties"/>
+                <field name="has_wallet"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_rider_type_form" model="ir.ui.view">
+        <field name="name">delivery.rider.type.form</field>
+        <field name="model">delivery.rider.type</field>
+        <field name="arch" type="xml">
+            <form string="Rider Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="name_ar"/>
+                            <field name="type"/>
+                        </group>
+                        <group>
+                            <field name="has_deposit"/>
+                            <field name="has_penalties"/>
+                            <field name="has_wallet"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_delivery_rider_type" model="ir.actions.act_window">
+        <field name="name">Rider Types</field>
+        <field name="res_model">delivery.rider.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_delivery_rider_tree" model="ir.ui.view">
+        <field name="name">delivery.rider.tree</field>
+        <field name="model">delivery.rider</field>
+        <field name="arch" type="xml">
+            <tree string="Riders" decoration-muted="status == 'inactive'"
+                  decoration-danger="status == 'suspended'"
+                  decoration-success="is_valid_da == True">
+                <field name="name"/>
+                <field name="name_ar" optional="show"/>
+                <field name="phone"/>
+                <field name="platform_account_id" optional="show"/>
+                <field name="rider_type_id"/>
+                <field name="vehicle_type" widget="badge" optional="show"/>
+                <field name="primary_company_id"/>
+                <field name="branch_id" optional="show"/>
+                <field name="city_id"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'active'"
+                       decoration-warning="status == 'inactive'"
+                       decoration-danger="status == 'suspended'"/>
+                <field name="is_valid_da"/>
+                <field name="performance_level" widget="badge" optional="show"/>
+                <field name="valid_days_count" optional="show"/>
+                <field name="wallet_balance" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_rider_form" model="ir.ui.view">
+        <field name="name">delivery.rider.form</field>
+        <field name="model">delivery.rider</field>
+        <field name="arch" type="xml">
+            <form string="Rider">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_daily_performance" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <field name="daily_perf_count" widget="statinfo" string="Daily Perf"/>
+                        </button>
+                        <button name="action_view_monthly_performance" type="object"
+                                class="oe_stat_button" icon="fa-bar-chart">
+                            <field name="monthly_perf_count" widget="statinfo" string="Monthly Perf"/>
+                        </button>
+                        <button name="action_view_wallet" type="object"
+                                class="oe_stat_button" icon="fa-wallet">
+                            <field name="transaction_count" widget="statinfo" string="Wallet"/>
+                        </button>
+                        <button name="action_view_penalties" type="object"
+                                class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <field name="penalty_count" widget="statinfo" string="Penalties"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Full Name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Personal Information">
+                            <field name="name_ar"/>
+                            <field name="phone"/>
+                            <field name="national_id"/>
+                            <field name="platform_account_id"/>
+                            <field name="join_date"/>
+                        </group>
+                        <group string="Work Details">
+                            <field name="rider_type_id"/>
+                            <field name="primary_company_id"/>
+                            <field name="branch_id"/>
+                            <field name="city_id"/>
+                            <field name="vehicle_type"/>
+                            <field name="license_plate"/>
+                            <field name="status"/>
+                            <field name="parent_rider_id"
+                                   invisible="rider_type != 'subcontract'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Validity &amp; Performance">
+                            <field name="is_self_delivery"/>
+                            <field name="is_valid_da"/>
+                            <field name="validity_reason"/>
+                            <field name="valid_days_count"/>
+                            <field name="experience_score"/>
+                            <field name="performance_level"/>
+                            <field name="facial_verification_pass"/>
+                        </group>
+                        <group string="Work Period &amp; Financial">
+                            <field name="work_start_date"/>
+                            <field name="work_end_date"/>
+                            <field name="wallet_balance" readonly="1"/>
+                            <field name="deposit_amount"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Settlement Items" name="settlements">
+                            <field name="settlement_item_ids">
+                                <tree string="Settlement Items">
+                                    <field name="settlement_id"/>
+                                    <field name="orders"/>
+                                    <field name="order_base_amount"/>
+                                    <field name="capacity_incentive"/>
+                                    <field name="experience_incentive"/>
+                                    <field name="gross_amount"/>
+                                    <field name="penalties"/>
+                                    <field name="bonuses"/>
+                                    <field name="net_amount"/>
+                                    <field name="is_valid_da"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Deductions" name="deductions">
+                            <field name="deduction_ids">
+                                <tree string="Deductions">
+                                    <field name="period_display"/>
+                                    <field name="fuel_deduction"/>
+                                    <field name="car_rent"/>
+                                    <field name="housing"/>
+                                    <field name="car_installment"/>
+                                    <field name="advance_salary"/>
+                                    <field name="food_allowance"/>
+                                    <field name="total_deduction"/>
+                                    <field name="collection_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Penalties" name="penalties">
+                            <field name="penalty_ids">
+                                <tree string="Penalties">
+                                    <field name="date"/>
+                                    <field name="penalty_type_id"/>
+                                    <field name="amount"/>
+                                    <field name="reason"/>
+                                    <field name="status" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Wallet Transactions" name="wallet">
+                            <field name="wallet_transaction_ids">
+                                <tree string="Wallet Transactions">
+                                    <field name="create_date"/>
+                                    <field name="type"/>
+                                    <field name="amount"/>
+                                    <field name="balance_before"/>
+                                    <field name="balance_after"/>
+                                    <field name="reference"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_rider_search" model="ir.ui.view">
+        <field name="name">delivery.rider.search</field>
+        <field name="model">delivery.rider</field>
+        <field name="arch" type="xml">
+            <search string="Search Riders">
+                <field name="name"/>
+                <field name="name_ar"/>
+                <field name="phone"/>
+                <field name="national_id"/>
+                <field name="platform_account_id"/>
+                <filter name="active_riders" string="Active" domain="[('status', '=', 'active')]"/>
+                <filter name="suspended_riders" string="Suspended" domain="[('status', '=', 'suspended')]"/>
+                <separator/>
+                <filter name="valid_da" string="Valid DA" domain="[('is_valid_da', '=', True)]"/>
+                <filter name="invalid_da" string="Invalid DA" domain="[('is_valid_da', '=', False)]"/>
+                <separator/>
+                <filter name="internal" string="Internal" domain="[('rider_type', '=', 'internal')]"/>
+                <filter name="subcontract" string="Subcontract" domain="[('rider_type', '=', 'subcontract')]"/>
+                <separator/>
+                <filter name="bike" string="Bike" domain="[('vehicle_type', '=', 'motorcycle')]"/>
+                <filter name="car" string="Car" domain="[('vehicle_type', '=', 'car')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_company" string="Company" context="{'group_by': 'primary_company_id'}"/>
+                    <filter name="group_branch" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="group_city" string="City" context="{'group_by': 'city_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'rider_type'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_valid" string="Valid/Invalid" context="{'group_by': 'is_valid_da'}"/>
+                    <filter name="group_vehicle" string="Vehicle Type" context="{'group_by': 'vehicle_type'}"/>
+                    <filter name="group_level" string="Performance Level" context="{'group_by': 'performance_level'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_rider" model="ir.actions.act_window">
+        <field name="name">Riders</field>
+        <field name="res_model">delivery.rider</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active_riders': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register your first rider</p>
+            <p>Riders are independent contractors, not employees. They are paid via Settlements.</p>
+        </field>
+    </record>
+</odoo>

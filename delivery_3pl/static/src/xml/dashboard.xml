@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="delivery_3pl.Dashboard">
+        <div class="o_delivery_dashboard">
+            <!-- Header -->
+            <div class="d3pl_header">
+                <div class="d3pl_header_title">
+                    <h2><i class="fa fa-tachometer me-2"/>3PL Delivery Dashboard</h2>
+                    <span class="text-muted">Operations Overview</span>
+                </div>
+                <div class="d3pl_header_filters">
+                    <div class="d3pl_date_group">
+                        <label>From:</label>
+                        <input type="date" class="form-control form-control-sm"
+                               t-att-value="state.dateFrom"
+                               t-on-change="onDateFromChange"/>
+                    </div>
+                    <div class="d3pl_date_group">
+                        <label>To:</label>
+                        <input type="date" class="form-control form-control-sm"
+                               t-att-value="state.dateTo"
+                               t-on-change="onDateToChange"/>
+                    </div>
+                    <button class="btn btn-primary btn-sm" t-on-click="onDateChange">
+                        <i class="fa fa-refresh me-1"/>Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <t t-if="state.loading">
+                <div class="d3pl_loading">
+                    <i class="fa fa-spinner fa-spin fa-3x text-primary"/>
+                    <p class="mt-3 text-muted">Loading dashboard data...</p>
+                </div>
+            </t>
+
+            <t t-if="!state.loading and state.data">
+                <!-- KPI Cards Row 1 -->
+                <div class="d3pl_kpi_row">
+                    <div class="d3pl_kpi_card d3pl_kpi_companies" t-on-click="openCompanies" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-building"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatNumber(state.data.kpis.total_companies)"/>
+                            <div class="d3pl_kpi_label">Active Companies</div>
+                        </div>
+                    </div>
+                    <div class="d3pl_kpi_card d3pl_kpi_branches" t-on-click="openBranches" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-code-fork"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatNumber(state.data.kpis.total_branches)"/>
+                            <div class="d3pl_kpi_label">Active Branches</div>
+                        </div>
+                    </div>
+                    <div class="d3pl_kpi_card d3pl_kpi_riders" t-on-click="openRiders" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-motorcycle"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatNumber(state.data.kpis.active_riders)"/>
+                            <div class="d3pl_kpi_label">Active Riders</div>
+                            <div class="d3pl_kpi_sub text-muted">
+                                of <t t-esc="formatNumber(state.data.kpis.total_riders)"/> total
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d3pl_kpi_card d3pl_kpi_contracts" t-on-click="openContracts" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-file-text-o"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatNumber(state.data.kpis.active_contracts)"/>
+                            <div class="d3pl_kpi_label">Active Contracts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards Row 2: Financial -->
+                <div class="d3pl_kpi_row">
+                    <div class="d3pl_kpi_card d3pl_kpi_orders" t-on-click="openSettlements" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-shopping-cart"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatNumber(state.data.kpis.total_orders)"/>
+                            <div class="d3pl_kpi_label">Total Orders</div>
+                            <div class="d3pl_kpi_sub">
+                                <i t-att-class="'fa ' + getGrowthIcon(state.data.kpis.orders_growth) + ' ' + getGrowthClass(state.data.kpis.orders_growth)"/>
+                                <span t-att-class="getGrowthClass(state.data.kpis.orders_growth)">
+                                    <t t-esc="state.data.kpis.orders_growth"/>%
+                                </span>
+                                <span class="text-muted ms-1">vs prev period</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d3pl_kpi_card d3pl_kpi_gross" t-on-click="openSettlements" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-money"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatCurrency(state.data.kpis.total_gross)"/>
+                            <div class="d3pl_kpi_label">Gross Revenue</div>
+                            <div class="d3pl_kpi_sub">
+                                <i t-att-class="'fa ' + getGrowthIcon(state.data.kpis.gross_growth) + ' ' + getGrowthClass(state.data.kpis.gross_growth)"/>
+                                <span t-att-class="getGrowthClass(state.data.kpis.gross_growth)">
+                                    <t t-esc="state.data.kpis.gross_growth"/>%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d3pl_kpi_card d3pl_kpi_net" t-on-click="openSettlements" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-line-chart"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatCurrency(state.data.kpis.total_net)"/>
+                            <div class="d3pl_kpi_label">Net Payable</div>
+                            <div class="d3pl_kpi_sub">
+                                <i t-att-class="'fa ' + getGrowthIcon(state.data.kpis.net_growth) + ' ' + getGrowthClass(state.data.kpis.net_growth)"/>
+                                <span t-att-class="getGrowthClass(state.data.kpis.net_growth)">
+                                    <t t-esc="state.data.kpis.net_growth"/>%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d3pl_kpi_card d3pl_kpi_penalties" t-on-click="openPenalties" role="button">
+                        <div class="d3pl_kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
+                        <div class="d3pl_kpi_content">
+                            <div class="d3pl_kpi_value" t-esc="formatCurrency(state.data.kpis.total_penalties)"/>
+                            <div class="d3pl_kpi_label">Total Penalties</div>
+                            <div class="d3pl_kpi_sub text-muted">
+                                <t t-esc="state.data.kpis.penalty_count"/> records
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="d3pl_content_grid">
+                    <!-- Left Column -->
+                    <div class="d3pl_content_left">
+                        <!-- Rider Status Distribution -->
+                        <div class="d3pl_card">
+                            <div class="d3pl_card_header">
+                                <h4><i class="fa fa-users me-2"/>Rider Status</h4>
+                            </div>
+                            <div class="d3pl_card_body">
+                                <div class="d3pl_stat_bars">
+                                    <div class="d3pl_stat_bar_item">
+                                        <div class="d3pl_stat_bar_label">
+                                            <span class="d3pl_dot bg-success"/>Active
+                                        </div>
+                                        <div class="d3pl_stat_bar_track">
+                                            <div class="d3pl_stat_bar_fill bg-success"
+                                                 t-att-style="'width:' + getBarWidth(state.data.kpis.active_riders, state.data.kpis.total_riders)"/>
+                                        </div>
+                                        <div class="d3pl_stat_bar_value" t-esc="state.data.kpis.active_riders"/>
+                                    </div>
+                                    <div class="d3pl_stat_bar_item">
+                                        <div class="d3pl_stat_bar_label">
+                                            <span class="d3pl_dot bg-secondary"/>Inactive
+                                        </div>
+                                        <div class="d3pl_stat_bar_track">
+                                            <div class="d3pl_stat_bar_fill bg-secondary"
+                                                 t-att-style="'width:' + getBarWidth(state.data.kpis.inactive_riders, state.data.kpis.total_riders)"/>
+                                        </div>
+                                        <div class="d3pl_stat_bar_value" t-esc="state.data.kpis.inactive_riders"/>
+                                    </div>
+                                    <div class="d3pl_stat_bar_item">
+                                        <div class="d3pl_stat_bar_label">
+                                            <span class="d3pl_dot bg-danger"/>Suspended
+                                        </div>
+                                        <div class="d3pl_stat_bar_track">
+                                            <div class="d3pl_stat_bar_fill bg-danger"
+                                                 t-att-style="'width:' + getBarWidth(state.data.kpis.suspended_riders, state.data.kpis.total_riders)"/>
+                                        </div>
+                                        <div class="d3pl_stat_bar_value" t-esc="state.data.kpis.suspended_riders"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settlement Status -->
+                        <div class="d3pl_card">
+                            <div class="d3pl_card_header">
+                                <h4><i class="fa fa-pie-chart me-2"/>Settlement Pipeline</h4>
+                                <span class="badge bg-primary" t-esc="totalSettlements"/>
+                            </div>
+                            <div class="d3pl_card_body">
+                                <div class="d3pl_pipeline">
+                                    <div class="d3pl_pipeline_item" t-on-click="openSettlements" role="button">
+                                        <div class="d3pl_pipeline_count" t-esc="state.data.settlements_by_status.draft || 0"/>
+                                        <div class="d3pl_pipeline_label">Draft</div>
+                                        <div class="d3pl_pipeline_bar bg-secondary"/>
+                                    </div>
+                                    <div class="d3pl_pipeline_arrow"><i class="fa fa-chevron-right"/></div>
+                                    <div class="d3pl_pipeline_item" t-on-click="openSettlements" role="button">
+                                        <div class="d3pl_pipeline_count text-warning" t-esc="state.data.settlements_by_status.pending || 0"/>
+                                        <div class="d3pl_pipeline_label">Pending</div>
+                                        <div class="d3pl_pipeline_bar bg-warning"/>
+                                    </div>
+                                    <div class="d3pl_pipeline_arrow"><i class="fa fa-chevron-right"/></div>
+                                    <div class="d3pl_pipeline_item" t-on-click="openSettlements" role="button">
+                                        <div class="d3pl_pipeline_count text-success" t-esc="state.data.settlements_by_status.approved || 0"/>
+                                        <div class="d3pl_pipeline_label">Approved</div>
+                                        <div class="d3pl_pipeline_bar bg-success"/>
+                                    </div>
+                                    <div class="d3pl_pipeline_arrow"><i class="fa fa-chevron-right"/></div>
+                                    <div class="d3pl_pipeline_item" t-on-click="openSettlements" role="button">
+                                        <div class="d3pl_pipeline_count text-info" t-esc="state.data.settlements_by_status.locked || 0"/>
+                                        <div class="d3pl_pipeline_label">Locked</div>
+                                        <div class="d3pl_pipeline_bar bg-info"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Company Performance -->
+                        <div class="d3pl_card">
+                            <div class="d3pl_card_header">
+                                <h4><i class="fa fa-bar-chart me-2"/>Company Performance</h4>
+                            </div>
+                            <div class="d3pl_card_body">
+                                <t t-if="state.data.company_data.length === 0">
+                                    <div class="text-center text-muted py-4">
+                                        <i class="fa fa-inbox fa-2x mb-2"/><br/>
+                                        No company data for this period
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <table class="table table-sm table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Company</th>
+                                                <th class="text-center">Branches</th>
+                                                <th class="text-center">Riders</th>
+                                                <th class="text-center">Orders</th>
+                                                <th class="text-end">Gross (SAR)</th>
+                                                <th class="text-end">Net (SAR)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="state.data.company_data" t-as="comp" t-key="comp.id">
+                                                <tr>
+                                                    <td>
+                                                        <strong t-esc="comp.name"/>
+                                                        <t t-if="comp.name_ar and comp.name_ar !== comp.name">
+                                                            <small class="text-muted d-block" t-esc="comp.name_ar"/>
+                                                        </t>
+                                                    </td>
+                                                    <td class="text-center" t-esc="comp.branches"/>
+                                                    <td class="text-center" t-esc="comp.riders"/>
+                                                    <td class="text-center">
+                                                        <span t-esc="formatNumber(comp.orders)"/>
+                                                    </td>
+                                                    <td class="text-end" t-esc="formatNumber(comp.gross)"/>
+                                                    <td class="text-end fw-bold" t-esc="formatNumber(comp.net)"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="d3pl_content_right">
+                        <!-- Branch Overview -->
+                        <div class="d3pl_card">
+                            <div class="d3pl_card_header">
+                                <h4><i class="fa fa-sitemap me-2"/>Branch Overview</h4>
+                            </div>
+                            <div class="d3pl_card_body">
+                                <t t-if="state.data.branch_data.length === 0">
+                                    <div class="text-center text-muted py-4">
+                                        <i class="fa fa-inbox fa-2x mb-2"/><br/>
+                                        No branch data available
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="d3pl_branch_list">
+                                        <t t-foreach="state.data.branch_data" t-as="br" t-key="br.id">
+                                            <div class="d3pl_branch_item">
+                                                <div class="d3pl_branch_info">
+                                                    <strong t-esc="br.name"/>
+                                                    <small class="text-muted" t-esc="br.company"/>
+                                                </div>
+                                                <div class="d3pl_branch_stats">
+                                                    <span class="d3pl_branch_stat">
+                                                        <i class="fa fa-motorcycle text-primary"/>
+                                                        <t t-esc="br.riders"/>
+                                                    </span>
+                                                    <span class="d3pl_branch_stat">
+                                                        <i class="fa fa-shopping-cart text-success"/>
+                                                        <t t-esc="formatNumber(br.orders)"/>
+                                                    </span>
+                                                    <span class="d3pl_branch_stat">
+                                                        <i class="fa fa-money text-warning"/>
+                                                        <t t-esc="formatNumber(br.gross)"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Recent Settlements -->
+                        <div class="d3pl_card">
+                            <div class="d3pl_card_header">
+                                <h4><i class="fa fa-clock-o me-2"/>Recent Settlements</h4>
+                                <button class="btn btn-sm btn-outline-primary" t-on-click="openSettlements">
+                                    View All
+                                </button>
+                            </div>
+                            <div class="d3pl_card_body d3pl_card_body_scroll">
+                                <t t-if="state.data.recent_settlements.length === 0">
+                                    <div class="text-center text-muted py-4">
+                                        <i class="fa fa-inbox fa-2x mb-2"/><br/>
+                                        No settlements yet
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <t t-foreach="state.data.recent_settlements" t-as="stl" t-key="stl.id">
+                                        <div class="d3pl_settlement_item">
+                                            <div class="d3pl_settlement_top">
+                                                <strong t-esc="stl.number"/>
+                                                <span t-att-class="getStatusBadgeClass(stl.status)" t-esc="stl.status"/>
+                                            </div>
+                                            <div class="d3pl_settlement_mid">
+                                                <span><i class="fa fa-building me-1"/><t t-esc="stl.company"/></span>
+                                                <t t-if="stl.branch !== '-'">
+                                                    <span><i class="fa fa-code-fork me-1"/><t t-esc="stl.branch"/></span>
+                                                </t>
+                                            </div>
+                                            <div class="d3pl_settlement_bottom">
+                                                <span class="text-muted"><i class="fa fa-calendar me-1"/><t t-esc="stl.period"/></span>
+                                                <span>
+                                                    <t t-esc="formatNumber(stl.orders)"/> orders |
+                                                    <strong class="text-primary"><t t-esc="formatCurrency(stl.net)"/></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="d3pl_card">
+                            <div class="d3pl_card_header">
+                                <h4><i class="fa fa-gift me-2"/>Bonuses &amp; Adjustments</h4>
+                            </div>
+                            <div class="d3pl_card_body">
+                                <div class="d3pl_quick_stats">
+                                    <div class="d3pl_quick_stat">
+                                        <i class="fa fa-trophy text-warning fa-2x"/>
+                                        <div>
+                                            <div class="d3pl_quick_stat_value" t-esc="formatCurrency(state.data.kpis.total_bonuses)"/>
+                                            <div class="d3pl_quick_stat_label">Total Bonuses</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

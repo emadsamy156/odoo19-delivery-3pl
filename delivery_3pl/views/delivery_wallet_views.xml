@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_wallet_transaction_tree" model="ir.ui.view">
+        <field name="name">delivery.wallet.transaction.tree</field>
+        <field name="model">delivery.wallet.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Wallet Transactions">
+                <field name="create_date"/>
+                <field name="rider_id"/>
+                <field name="type" widget="badge"/>
+                <field name="amount"/>
+                <field name="balance_before"/>
+                <field name="balance_after"/>
+                <field name="reference"/>
+                <field name="settlement_id"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_wallet_transaction_form" model="ir.ui.view">
+        <field name="name">delivery.wallet.transaction.form</field>
+        <field name="model">delivery.wallet.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Wallet Transaction">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="rider_id"/>
+                            <field name="type"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="balance_before"/>
+                            <field name="balance_after"/>
+                            <field name="reference"/>
+                            <field name="settlement_id"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_wallet_transaction_search" model="ir.ui.view">
+        <field name="name">delivery.wallet.transaction.search</field>
+        <field name="model">delivery.wallet.transaction</field>
+        <field name="arch" type="xml">
+            <search string="Search Wallet Transactions">
+                <field name="rider_id"/>
+                <field name="reference"/>
+                <filter name="credits" string="Credits" domain="[('type', '=', 'credit')]"/>
+                <filter name="debits" string="Debits" domain="[('type', '=', 'debit')]"/>
+                <filter name="penalties" string="Penalties" domain="[('type', '=', 'penalty')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_rider" string="Rider" context="{'group_by': 'rider_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_wallet_transaction" model="ir.actions.act_window">
+        <field name="name">Wallet Transactions</field>
+        <field name="res_model">delivery.wallet.transaction</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

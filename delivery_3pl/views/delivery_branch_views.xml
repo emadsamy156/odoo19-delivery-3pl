@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_branch_tree" model="ir.ui.view">
+        <field name="name">delivery.company.branch.tree</field>
+        <field name="model">delivery.company.branch</field>
+        <field name="arch" type="xml">
+            <tree string="Company Branches">
+                <field name="branch_code" optional="show"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="city_id"/>
+                <field name="contact_person" optional="show"/>
+                <field name="contact_phone" optional="hide"/>
+                <field name="contract_count" string="Contracts"/>
+                <field name="rider_count" string="Riders"/>
+                <field name="is_active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_branch_form" model="ir.ui.view">
+        <field name="name">delivery.company.branch.form</field>
+        <field name="model">delivery.company.branch</field>
+        <field name="arch" type="xml">
+            <form string="Company Branch">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_contracts" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="contract_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                        <button name="action_view_riders" type="object"
+                                class="oe_stat_button" icon="fa-motorcycle">
+                            <field name="rider_count" widget="statinfo" string="Riders"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Branch Name (EN)"/></h1>
+                    </div>
+                    <group>
+                        <group string="General">
+                            <field name="company_id"/>
+                            <field name="city_id"/>
+                            <field name="branch_code"/>
+                            <field name="name_ar" placeholder="Branch Name (AR)"/>
+                            <field name="is_active"/>
+                        </group>
+                        <group string="Contact">
+                            <field name="contact_person"/>
+                            <field name="contact_phone"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contracts" name="contracts">
+                            <field name="contract_ids" mode="tree" readonly="1">
+                                <tree>
+                                    <field name="contract_number"/>
+                                    <field name="version"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status == 'active'"
+                                           decoration-info="status == 'draft'"
+                                           decoration-muted="status == 'expired'"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Pricing Rules" name="pricing">
+                            <field name="pricing_rule_ids" mode="tree" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="pricing_type" widget="badge"/>
+                                    <field name="base_amount"/>
+                                    <field name="is_active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_branch_search" model="ir.ui.view">
+        <field name="name">delivery.company.branch.search</field>
+        <field name="model">delivery.company.branch</field>
+        <field name="arch" type="xml">
+            <search string="Search Branches">
+                <field name="name"/>
+                <field name="branch_code"/>
+                <field name="company_id"/>
+                <field name="city_id"/>
+                <filter name="active_branches" string="Active" domain="[('is_active', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                    <filter name="group_city" string="City" context="{'group_by': 'city_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_branch" model="ir.actions.act_window">
+        <field name="name">Company Branches</field>
+        <field name="res_model">delivery.company.branch</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active_branches': 1}</field>
+    </record>
+</odoo>

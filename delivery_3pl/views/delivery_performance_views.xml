@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Daily Performance Views -->
+    <record id="view_delivery_daily_performance_tree" model="ir.ui.view">
+        <field name="name">delivery.daily.performance.tree</field>
+        <field name="model">delivery.daily.performance</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="is_valid_day == True" decoration-danger="is_valid_day == False">
+                <field name="date"/>
+                <field name="branch_id"/>
+                <field name="rider_id"/>
+                <field name="platform_account_id"/>
+                <field name="account_name"/>
+                <field name="vehicle_type_company"/>
+                <field name="vehicle_type_contract"/>
+                <field name="platform_target"/>
+                <field name="accepted_orders"/>
+                <field name="delivered_orders"/>
+                <field name="cancelled_orders"/>
+                <field name="valid_online_hours"/>
+                <field name="peak_hours"/>
+                <field name="is_valid_day"/>
+                <field name="is_must_attend_day"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_daily_performance_form" model="ir.ui.view">
+        <field name="name">delivery.daily.performance.form</field>
+        <field name="model">delivery.daily.performance</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="General">
+                            <field name="branch_id"/>
+                            <field name="company_id"/>
+                            <field name="rider_id"/>
+                            <field name="date"/>
+                            <field name="import_session_id"/>
+                        </group>
+                        <group string="Account Info">
+                            <field name="platform_account_id"/>
+                            <field name="account_name"/>
+                            <field name="vehicle_type_company"/>
+                            <field name="vehicle_type_contract"/>
+                            <field name="license_plate"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Orders">
+                            <field name="platform_target"/>
+                            <field name="accepted_orders"/>
+                            <field name="delivered_orders"/>
+                            <field name="large_orders_completed"/>
+                            <field name="cancelled_orders"/>
+                            <field name="rejected_orders"/>
+                            <field name="on_time_deliveries"/>
+                            <field name="advance_deliveries"/>
+                        </group>
+                        <group string="Hours &amp; Validity">
+                            <field name="total_online_hours"/>
+                            <field name="valid_online_hours"/>
+                            <field name="peak_hours"/>
+                            <field name="is_valid_day"/>
+                            <field name="is_must_attend_day"/>
+                            <field name="validity_notes"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_daily_performance_search" model="ir.ui.view">
+        <field name="name">delivery.daily.performance.search</field>
+        <field name="model">delivery.daily.performance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="rider_id"/>
+                <field name="branch_id"/>
+                <field name="date"/>
+                <field name="platform_account_id"/>
+                <filter name="valid_days" string="Valid Days" domain="[('is_valid_day', '=', True)]"/>
+                <filter name="invalid_days" string="Invalid Days" domain="[('is_valid_day', '=', False)]"/>
+                <filter name="must_attend" string="Must Attend Days" domain="[('is_must_attend_day', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_rider" string="Rider" context="{'group_by': 'rider_id'}"/>
+                    <filter name="group_branch" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'date'}"/>
+                    <filter name="group_vehicle" string="Vehicle Type" context="{'group_by': 'vehicle_type_contract'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_daily_performance" model="ir.actions.act_window">
+        <field name="name">Daily Performance</field>
+        <field name="res_model">delivery.daily.performance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_valid_days': 0}</field>
+    </record>
+
+    <!-- Monthly Performance Views -->
+    <record id="view_delivery_monthly_performance_tree" model="ir.ui.view">
+        <field name="name">delivery.monthly.performance.tree</field>
+        <field name="model">delivery.monthly.performance</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="is_valid == True" decoration-danger="is_valid == False">
+                <field name="period_display"/>
+                <field name="branch_id"/>
+                <field name="rider_id"/>
+                <field name="is_valid"/>
+                <field name="validity_reason"/>
+                <field name="valid_days"/>
+                <field name="valid_hours" widget="float_time"/>
+                <field name="delivered_orders"/>
+                <field name="performance_level"/>
+                <field name="order_base_amount"/>
+                <field name="capacity_incentive"/>
+                <field name="experience_incentive"/>
+                <field name="subsidy"/>
+                <field name="tips_excl_vat"/>
+                <field name="total_revenue"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_delivery_monthly_performance_form" model="ir.ui.view">
+        <field name="name">delivery.monthly.performance.form</field>
+        <field name="model">delivery.monthly.performance</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <group string="General">
+                            <field name="branch_id"/>
+                            <field name="company_id"/>
+                            <field name="rider_id"/>
+                            <field name="period_month"/>
+                            <field name="period_year"/>
+                            <field name="period_display"/>
+                        </group>
+                        <group string="Validity">
+                            <field name="is_valid"/>
+                            <field name="validity_reason"/>
+                            <field name="valid_days"/>
+                            <field name="valid_hours" widget="float_time"/>
+                            <field name="valid_peak_hours" widget="float_time"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Orders &amp; Performance">
+                            <group>
+                                <group>
+                                    <field name="delivered_orders"/>
+                                    <field name="accepted_orders"/>
+                                    <field name="cancelled_orders"/>
+                                    <field name="on_time_deliveries"/>
+                                    <field name="advance_deliveries"/>
+                                </group>
+                                <group>
+                                    <field name="on_time_rate" widget="percentage"/>
+                                    <field name="cancellation_rate" widget="percentage"/>
+                                    <field name="advance_rate" widget="percentage"/>
+                                    <field name="experience_score"/>
+                                    <field name="performance_level"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Revenue Breakdown">
+                            <group>
+                                <group string="Income">
+                                    <field name="order_base_amount"/>
+                                    <field name="capacity_incentive"/>
+                                    <field name="experience_incentive"/>
+                                    <field name="subsidy"/>
+                                    <field name="dxg"/>
+                                    <field name="other_activities"/>
+                                    <field name="tips_excl_vat"/>
+                                </group>
+                                <group string="Deductions">
+                                    <field name="deductions"/>
+                                    <field name="food_damage_compensation"/>
+                                    <field name="other_adjustment"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="total_revenue"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_monthly_performance_search" model="ir.ui.view">
+        <field name="name">delivery.monthly.performance.search</field>
+        <field name="model">delivery.monthly.performance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="rider_id"/>
+                <field name="branch_id"/>
+                <field name="period_year"/>
+                <filter name="valid_riders" string="Valid Riders" domain="[('is_valid', '=', True)]"/>
+                <filter name="invalid_riders" string="Invalid Riders" domain="[('is_valid', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_rider" string="Rider" context="{'group_by': 'rider_id'}"/>
+                    <filter name="group_branch" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="group_level" string="Performance Level" context="{'group_by': 'performance_level'}"/>
+                    <filter name="group_valid" string="Valid/Invalid" context="{'group_by': 'is_valid'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_monthly_performance" model="ir.actions.act_window">
+        <field name="name">Monthly Performance</field>
+        <field name="res_model">delivery.monthly.performance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
